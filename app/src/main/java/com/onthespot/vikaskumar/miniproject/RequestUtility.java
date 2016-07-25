@@ -14,31 +14,35 @@ import retrofit2.Response;
 
 public class RequestUtility {
 
-    public static void requestSignUp(String header, SignUpPojo signUpPojo, final Context context) {
+
+    public static void requestSignUp(String header, SignUpPojo signUpPojo, final Context context, RequestResponse response) {
         RetroInterface retroInterface = Utility.createRetrofit();
         Call<User> call = retroInterface.registerUser(header, signUpPojo);
-
+        final RequestResponse requestResponse = response;
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                Log.i("token", response.body().getToken() + "");
+                if (response.body() != null) {
+                    Log.i("token", response.body().getToken() + "");
+                    Utility.putTokenIn(response.body().getToken(), context);
+                    requestResponse.onSuccess();
 
-                Utility.putTokenIn(response.body().getToken(),context);
-
-
+                } else {
+                    Toast.makeText(context, "ServerError", Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
 
-
+                requestResponse.onError();
             }
         });
     }
 
     public static void statusPostRequest(String header, StatusPostPojo statusBodyPojo, final Context context) {
         RetroInterface retroInterface = Utility.createRetrofit();
-        Call<User> call = retroInterface.postUserStatus(header,statusBodyPojo);
+        Call<User> call = retroInterface.postUserStatus(header, statusBodyPojo);
 
         call.enqueue(new Callback<User>() {
             @Override
@@ -47,6 +51,7 @@ public class RequestUtility {
                 Toast.makeText(context, "status apdated", Toast.LENGTH_LONG).show();
 
             }
+
             @Override
             public void onFailure(Call<User> call, Throwable t) {
 

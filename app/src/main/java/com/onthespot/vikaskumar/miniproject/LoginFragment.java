@@ -29,7 +29,8 @@ import retrofit2.Response;
  * Use the {@link LoginFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LoginFragment extends Fragment {
+
+public class LoginFragment extends Fragment implements RequestResponse {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -108,13 +109,13 @@ public class LoginFragment extends Fragment {
                         call.enqueue(new Callback<User>() {
                             @Override
                             public void onResponse(Call<User> call, Response<User> response) {
-
+                                //log.i(response.headers())
                                 if(response.body() != null){
-                                    Toast.makeText(context, "Loged In", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(context, "Loged In", Toast.LENGTH_SHORT).show();
                                     Utility.putTokenIn(response.body().getToken(),context);
                                     startActivityMain();
                                 }else {
-                                    Toast.makeText(context, "Server Error", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(context, "Server Error", Toast.LENGTH_SHORT).show();
                                 }
 
                             }
@@ -139,14 +140,14 @@ public class LoginFragment extends Fragment {
 
     private void startActivityMain() {
         Intent i = new Intent(context, MainActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        //i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        //i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
     }
 
     private String constructHeader() {
         String hashPassword = Utility.getHashString(passwordeditText.getText().toString(), "SHA-1");
-        String header = emailEditText.getText().toString() + ":" + hashPassword;
+        String header = emailEditText.getText().toString() + ":" + "abcd";
         return "Basic " + Base64.encodeToString(header.getBytes(), Base64.NO_WRAP);
     }
 
@@ -163,7 +164,7 @@ public class LoginFragment extends Fragment {
             counter++;
         }
 
-        return (counter == 2);
+        return !(counter == 2);
     }
 
 
@@ -178,6 +179,16 @@ public class LoginFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onSuccess() {
+
+    }
+
+    @Override
+    public void onError() {
+
     }
 
     /**

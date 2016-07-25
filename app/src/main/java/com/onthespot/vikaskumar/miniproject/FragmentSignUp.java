@@ -1,6 +1,7 @@
 package com.onthespot.vikaskumar.miniproject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -31,7 +32,7 @@ import retrofit2.Response;
  * Use the {@link FragmentSignUp#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentSignUp extends Fragment {
+public class FragmentSignUp extends Fragment implements RequestResponse{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -87,6 +88,12 @@ public class FragmentSignUp extends Fragment {
         return inflater.inflate(R.layout.fragment_fragment_sign_up, container, false);
     }
 
+    private void startActivityMain() {
+        Intent i = new Intent(context, MainActivity.class);
+        //i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        //i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
+    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -105,8 +112,7 @@ public class FragmentSignUp extends Fragment {
                 if (!checkForEmptyField() && matchPassword()) {
                     if (Utility.isNetworkAvailable(context)) {
 
-                        RequestUtility.requestSignUp(constructHeader(),constructJsonObject(),context);
-                        Toast.makeText(context, "User Registered", Toast.LENGTH_LONG).show();
+                        RequestUtility.requestSignUp(constructHeader(),constructJsonObject(),context,FragmentSignUp.this);
                     }else {
                         Toast.makeText(context, "InterNet Not Working", Toast.LENGTH_LONG).show();
                     }
@@ -170,6 +176,17 @@ public class FragmentSignUp extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onSuccess() {
+        startActivityMain();
+        Toast.makeText(context, "User Registered", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onError() {
+        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
     }
 
     /**
