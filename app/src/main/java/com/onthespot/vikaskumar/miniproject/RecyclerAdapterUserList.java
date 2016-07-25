@@ -71,7 +71,16 @@ public class RecyclerAdapterUserList extends RecyclerView.Adapter<RecyclerAdapte
 
     @Override
     public int getItemCount() {
-        return 0;
+        if(listUser != null){
+            if (!listUser.isEmpty()) {
+                return listUser.size();
+            }
+            else {
+                return 1;
+            }
+
+        }
+        else return 1;
     }
 
     public void swap(List<Integer> listFollowing, List<User> listUser) {

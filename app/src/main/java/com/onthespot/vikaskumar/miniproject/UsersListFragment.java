@@ -96,24 +96,23 @@ public class UsersListFragment extends Fragment {
         makeUserListRequest(getActivity());
     }
 
-    private void makeUserListRequest(Activity activity) {
+    private void makeUserListRequest(final Context context) {
 
         RetroInterface i = Utility.createRetrofit();
-        Call<List<UserListBodyPojo>> userListBodyPojoCall = i.getUserList(constructHeader());
-        userListBodyPojoCall.enqueue(new Callback<List<UserListBodyPojo>>() {
+        Call<UserListBodyPojo> userListBodyPojoCall = i.getUserList(constructHeader());
+        userListBodyPojoCall.enqueue(new Callback<UserListBodyPojo>() {
             @Override
-            public void onResponse(Call<List<UserListBodyPojo>> call, Response<List<UserListBodyPojo>> response) {
+            public void onResponse(Call<UserListBodyPojo> call, Response<UserListBodyPojo> response) {
 
                 if(response.body() != null){
 
                      listFollowing = new ArrayList<>();
-                    listUser = new ArrayList<User>();
-                    for(UserListBodyPojo body:response.body()){
+                    listUser = new ArrayList<>();
 
-                        listFollowing = body.getFollowing();
-                        listUser = body.getUsers();
+                        listFollowing = response.body().getFollowing();
+                        listUser = response.body().getUsers();
 
-                    }
+
                     adapter.swap(listFollowing,listUser);
                 }else {
                     Toast.makeText(context, "" + "Server Error", Toast.LENGTH_SHORT).show();
@@ -122,7 +121,7 @@ public class UsersListFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<UserListBodyPojo>> call, Throwable t) {
+            public void onFailure(Call<UserListBodyPojo> call, Throwable t) {
                 Toast.makeText(context, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
