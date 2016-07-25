@@ -45,6 +45,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             holder.textView.setText("Empty");
         }
     }
+
+
+
     public void swap(List<String> list){
         listData = list;
         notifyDataSetChanged();

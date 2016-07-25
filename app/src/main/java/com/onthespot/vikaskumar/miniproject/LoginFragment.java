@@ -2,13 +2,10 @@ package com.onthespot.vikaskumar.miniproject;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.preference.PreferenceManager;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -103,12 +100,12 @@ public class LoginFragment extends Fragment implements RequestResponse {
 
 
                         RetroInterface retroInterface = Utility.createRetrofit();
-                        Call<User> call = retroInterface.LoginUserUser(constructHeader());
+                        Call<UserTokenModel> call = retroInterface.LoginUserUser(constructHeader());
 
 
-                        call.enqueue(new Callback<User>() {
+                        call.enqueue(new Callback<UserTokenModel>() {
                             @Override
-                            public void onResponse(Call<User> call, Response<User> response) {
+                            public void onResponse(Call<UserTokenModel> call, Response<UserTokenModel> response) {
                                 //log.i(response.headers())
                                 if(response.body() != null){
                                     Toast.makeText(context, "Loged In", Toast.LENGTH_SHORT).show();
@@ -121,7 +118,7 @@ public class LoginFragment extends Fragment implements RequestResponse {
                             }
 
                             @Override
-                            public void onFailure(Call<User> call, Throwable t) {
+                            public void onFailure(Call<UserTokenModel> call, Throwable t) {
 
 
                             }
@@ -147,7 +144,7 @@ public class LoginFragment extends Fragment implements RequestResponse {
 
     private String constructHeader() {
         String hashPassword = Utility.getHashString(passwordeditText.getText().toString(), "SHA-1");
-        String header = emailEditText.getText().toString() + ":" + "abcd";
+        String header = emailEditText.getText().toString() + ":" + passwordeditText.getText().toString();
         return "Basic " + Base64.encodeToString(header.getBytes(), Base64.NO_WRAP);
     }
 

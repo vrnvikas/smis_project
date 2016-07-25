@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity
     public void setFragment(Fragment fragment){
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.add(R.id.container,fragment,"vik");
+        ft.replace(R.id.container,fragment,"vik");
         ft.commit();
     }
 
@@ -198,5 +198,4 @@ public class MainActivity extends AppCompatActivity
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
     }
-
 }

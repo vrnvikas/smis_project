@@ -17,11 +17,11 @@ public class RequestUtility {
 
     public static void requestSignUp(String header, SignUpPojo signUpPojo, final Context context, RequestResponse response) {
         RetroInterface retroInterface = Utility.createRetrofit();
-        Call<User> call = retroInterface.registerUser(header, signUpPojo);
+        Call<UserTokenModel> call = retroInterface.registerUser(header, signUpPojo);
         final RequestResponse requestResponse = response;
-        call.enqueue(new Callback<User>() {
+        call.enqueue(new Callback<UserTokenModel>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(Call<UserTokenModel> call, Response<UserTokenModel> response) {
                 if (response.body() != null) {
                     Log.i("token", response.body().getToken() + "");
                     Utility.putTokenIn(response.body().getToken(), context);
@@ -33,7 +33,7 @@ public class RequestUtility {
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<UserTokenModel> call, Throwable t) {
 
                 requestResponse.onError();
             }
@@ -42,18 +42,18 @@ public class RequestUtility {
 
     public static void statusPostRequest(String header, StatusPostPojo statusBodyPojo, final Context context) {
         RetroInterface retroInterface = Utility.createRetrofit();
-        Call<User> call = retroInterface.postUserStatus(header, statusBodyPojo);
+        Call<UserTokenModel> call = retroInterface.postUserStatus(header, statusBodyPojo);
 
-        call.enqueue(new Callback<User>() {
+        call.enqueue(new Callback<UserTokenModel>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(Call<UserTokenModel> call, Response<UserTokenModel> response) {
                 Log.i("vik", response.body().getToken() + "");
                 Toast.makeText(context, "status apdated", Toast.LENGTH_LONG).show();
 
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<UserTokenModel> call, Throwable t) {
 
             }
         });

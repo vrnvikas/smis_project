@@ -139,11 +139,11 @@ public class FragmentSignUp extends Fragment implements RequestResponse{
         int counter = 0;
 
         if (userEmail.getText().toString().isEmpty()) {
-            userEmail.setError("User Email Cannot be Empty");
+            userEmail.setError("UserTokenModel Email Cannot be Empty");
             counter++;
         }
         if (userName.getText().toString().isEmpty()) {
-            userName.setError("User Name cannot be Empty");
+            userName.setError("UserTokenModel Name cannot be Empty");
             counter++;
         }
         if (password.getText().toString().isEmpty()) {
@@ -181,7 +181,7 @@ public class FragmentSignUp extends Fragment implements RequestResponse{
     @Override
     public void onSuccess() {
         startActivityMain();
-        Toast.makeText(context, "User Registered", Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "UserTokenModel Registered", Toast.LENGTH_LONG).show();
     }
 
     @Override

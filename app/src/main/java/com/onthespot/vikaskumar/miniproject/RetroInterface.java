@@ -15,14 +15,17 @@ import retrofit2.http.POST;
 public interface RetroInterface {
 
     @POST(URL.SIGN_UP)
-    Call<User> registerUser(@Header("Authorization") String authoriazation, @Body SignUpPojo body);
+    Call<UserTokenModel> registerUser(@Header("Authorization") String authoriazation, @Body SignUpPojo body);
 
     @POST(URL.POST_STATUS)
-    Call<User> postUserStatus(@Header("Authorization") String header, @Body StatusPostPojo statusBodyPojo);
+    Call<UserTokenModel> postUserStatus(@Header("Authorization") String header, @Body StatusPostPojo statusBodyPojo);
 
     @GET(URL.USER_STATUS)
     Call<List<StatusBodyPojo>> getStatus(@Header("Authorization") String header);
 
     @GET(URL.LOGIN)
-    Call<User> LoginUserUser(@Header("Authorization") String header);
+    Call<UserTokenModel> LoginUserUser(@Header("Authorization") String header);
+
+    @GET(URL.USER_LIST)
+    Call<List<UserListBodyPojo>> getUserList(String header);
 }

@@ -1,11 +1,24 @@
 package com.onthespot.vikaskumar.miniproject;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -21,12 +34,19 @@ public class UsersListFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static Context context;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private RecyclerView recyclerView;
+    private RecyclerAdapterUserList adapter;
+    private List<User> listUser;
+    List<Integer> listFollowing;
+
 
     public UsersListFragment() {
         // Required empty public constructor
@@ -41,12 +61,13 @@ public class UsersListFragment extends Fragment {
      * @return A new instance of fragment UsersListFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static UsersListFragment newInstance(String param1, String param2) {
+    public static UsersListFragment newInstance(String param1, String param2,Context baseContext) {
         UsersListFragment fragment = new UsersListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
+        context = baseContext;
         return fragment;
     }
 
@@ -63,7 +84,61 @@ public class UsersListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_blank_fragment2, container, false);
+        View layout = inflater.inflate(R.layout.fragment_User_list, container, false);
+        setRecyclerView(layout);
+        return layout;
+    }
+
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        makeUserListRequest(getActivity());
+    }
+
+    private void makeUserListRequest(Activity activity) {
+
+        RetroInterface i = Utility.createRetrofit();
+        Call<List<UserListBodyPojo>> userListBodyPojoCall = i.getUserList(constructHeader());
+        userListBodyPojoCall.enqueue(new Callback<List<UserListBodyPojo>>() {
+            @Override
+            public void onResponse(Call<List<UserListBodyPojo>> call, Response<List<UserListBodyPojo>> response) {
+
+                if(response.body() != null){
+
+                     listFollowing = new ArrayList<>();
+                    listUser = new ArrayList<User>();
+                    for(UserListBodyPojo body:response.body()){
+
+                        listFollowing = body.getFollowing();
+                        listUser = body.getUsers();
+
+                    }
+                    adapter.swap(listFollowing,listUser);
+                }else {
+                    Toast.makeText(context, "" + "Server Error", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<UserListBodyPojo>> call, Throwable t) {
+                Toast.makeText(context, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private String constructHeader() {
+        String hashPassword = Utility.getHashString("abcd", "SHA-1");
+        String header = "admin3" + ":" + "abcd";
+        return "Basic " + Base64.encodeToString(header.getBytes(), Base64.NO_WRAP);
+    }
+
+    private void setRecyclerView(View layout) {
+        recyclerView = (RecyclerView) layout.findViewById(R.id.recycler_view_user);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        adapter = new RecyclerAdapterUserList(context,listFollowing,listUser);
+        recyclerView.setAdapter(adapter);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

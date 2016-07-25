@@ -10,4 +10,5 @@ public class URL {
     public static final String POST_STATUS = "/post";
     public static final String USER_STATUS = "/post";
     public static final String SIGN_UP = "/login";
+    public static final String USER_LIST = "/follow";
 }
