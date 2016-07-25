@@ -153,15 +153,17 @@ public class StatusFragment extends Fragment {
         statusBodyPojoCall.enqueue(new Callback<List<StatusBodyPojo>>() {
             @Override
             public void onResponse(Call<List<StatusBodyPojo>> call, Response<List<StatusBodyPojo>> response) {
-                Log.i("vikas",response.body().get(0).getPostContent()+ "-post Content" );
-                Utility.parseDatabase(response,context);
+                //Log.i("vikas",response.body().get(0).getPostContent()+ "-post Content" );
 
-                List<String> list = new ArrayList<String>();
-                for(StatusBodyPojo body:response.body()){
-                    Log.i("vikas","data first----"+ body.getPostContent());
-                    list.add(body.getPostContent());
+                if(response.body() != null){
+                    //Utility.parseDatabase(response,context);
+                    List<String> list = new ArrayList<String>();
+                    for(StatusBodyPojo body:response.body()){
+                        Log.i("vikas","data first----"+ body.getPostContent());
+                        list.add(body.getPostContent());
+                    }
+                    adapter.swap(list);
                 }
-                adapter.swap(list);
 
             }
 

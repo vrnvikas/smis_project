@@ -93,16 +93,6 @@ public class LoginFragment extends Fragment {
         logInButton = (Button) view.findViewById(R.id.login_button);
         passwordeditText = (EditText) view.findViewById(R.id.input_password);
 
-
-        SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-        boolean isLoggedIn = getPrefs.getBoolean("LogedIn",false);
-
-        if(isLoggedIn){
-            Intent i = new Intent(context, MainActivity.class);
-            startActivity(i);
-        }
-
         logInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,15 +102,21 @@ public class LoginFragment extends Fragment {
 
 
                         RetroInterface retroInterface = Utility.createRetrofit();
-                        Call<User> call = retroInterface.registerUser(constructHeader(), constructJsonObject());
+                        Call<User> call = retroInterface.LoginUserUser(constructHeader());
 
 
                         call.enqueue(new Callback<User>() {
                             @Override
                             public void onResponse(Call<User> call, Response<User> response) {
 
-                                Toast.makeText(context, response.body().getToken(), Toast.LENGTH_LONG).show();
-                                Log.d("vik", response.body().toString() + "");
+                                if(response.body() != null){
+                                    Toast.makeText(context, "Loged In", Toast.LENGTH_LONG).show();
+                                    Utility.putTokenIn(response.body().getToken(),context);
+                                    startActivityMain();
+                                }else {
+                                    Toast.makeText(context, "Server Error", Toast.LENGTH_LONG).show();
+                                }
+
                             }
 
                             @Override
@@ -141,10 +137,11 @@ public class LoginFragment extends Fragment {
 
     }
 
-    private SignUpPojo constructJsonObject() {
-        SignUpPojo signUp = new SignUpPojo();
-        signUp.setName("vikas");
-        return signUp;
+    private void startActivityMain() {
+        Intent i = new Intent(context, MainActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
     }
 
     private String constructHeader() {

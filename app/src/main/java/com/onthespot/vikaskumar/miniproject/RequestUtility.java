@@ -14,14 +14,18 @@ import retrofit2.Response;
 
 public class RequestUtility {
 
-    public static void requestSignUp(String header, SignUpPojo signUpPojo,Context context) {
+    public static void requestSignUp(String header, SignUpPojo signUpPojo, final Context context) {
         RetroInterface retroInterface = Utility.createRetrofit();
         Call<User> call = retroInterface.registerUser(header, signUpPojo);
 
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                Log.i("vik", response.body().getToken() + "");
+                Log.i("token", response.body().getToken() + "");
+
+                Utility.putTokenIn(response.body().getToken(),context);
+
+
             }
 
             @Override

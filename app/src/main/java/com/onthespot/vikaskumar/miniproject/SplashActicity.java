@@ -3,6 +3,7 @@ package com.onthespot.vikaskumar.miniproject;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +22,10 @@ public class SplashActicity extends AppCompatActivity {
         setFragment(LoginFragment.newInstance("","",getBaseContext()));
 
 
+        if(isLoggedIn()){
+            startActivityMain();
+        }
+
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -36,6 +41,17 @@ public class SplashActicity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void startActivityMain() {
+        Intent i = new Intent(getBaseContext(), MainActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
+    }
+
+    private boolean isLoggedIn() {
+        return Utility.UserTokenExists(getBaseContext());
     }
 
 

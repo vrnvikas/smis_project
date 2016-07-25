@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -182,11 +183,20 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_users) {
             setFragment(UsersListFragment.newInstance("",""));
         }else if(id == R.id.nav_sign_out){
-
+            Utility.clearToken(getBaseContext());
+            startActivitySplash();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    private void startActivitySplash() {
+        Intent i = new Intent(getBaseContext(), SplashActicity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
+    }
+
 }

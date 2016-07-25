@@ -106,6 +106,7 @@ public class FragmentSignUp extends Fragment {
                     if (Utility.isNetworkAvailable(context)) {
 
                         RequestUtility.requestSignUp(constructHeader(),constructJsonObject(),context);
+                        Toast.makeText(context, "User Registered", Toast.LENGTH_LONG).show();
                     }else {
                         Toast.makeText(context, "InterNet Not Working", Toast.LENGTH_LONG).show();
                     }

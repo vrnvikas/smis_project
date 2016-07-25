@@ -2,6 +2,7 @@ package com.onthespot.vikaskumar.miniproject;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
@@ -65,5 +66,27 @@ public class Utility {
             dataBase.insertRow("vikas",body.getPostContent(),"23","email");
         }
 
+    }
+
+    public static void putTokenIn(String token,Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(SharedPrefConstants.APP_SHARED_PREF_FILE_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("token",token);
+        editor.commit();
+    }
+
+    public static boolean UserTokenExists(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(SharedPrefConstants.APP_SHARED_PREF_FILE_NAME, Context.MODE_PRIVATE);
+        String token = prefs.getString("token",SharedPrefConstants.DEFAULT);
+
+        return !token.equals("default");
+
+    }
+
+    public static void clearToken(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(SharedPrefConstants.APP_SHARED_PREF_FILE_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("token",SharedPrefConstants.DEFAULT);
+        editor.commit();
     }
 }
