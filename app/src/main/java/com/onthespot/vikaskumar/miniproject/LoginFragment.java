@@ -98,7 +98,6 @@ public class LoginFragment extends Fragment implements RequestResponseLogIn {
                 if(checkForEmptyField()){
                     if (Utility.isNetworkAvailable(context)) {
 
-
                         RetroInterface retroInterface = Utility.createRetrofit();
                         Call<UserTokenModel> call = retroInterface.LoginUserUser(constructHeader());
 
@@ -108,7 +107,8 @@ public class LoginFragment extends Fragment implements RequestResponseLogIn {
                                 final RequestResponseLogIn requestResponseLogIn = LoginFragment.this;
 
                                 if(response.body() != null){
-                                    Utility.putTokenIn(response.body().getToken(),context);
+                                    Utility.putTokenIn(response.body().getToken(),
+                                            emailEditText.getText().toString(), context);
                                     requestResponseLogIn.onSuccess();
 
                                 }else {
@@ -144,7 +144,7 @@ public class LoginFragment extends Fragment implements RequestResponseLogIn {
 
     private String constructHeader() {
         String hashPassword = Utility.getHashString(passwordeditText.getText().toString(), "SHA-1");
-        String header = emailEditText.getText().toString() + ":" + passwordeditText.getText().toString();
+        String header = emailEditText.getText().toString() + ":" + hashPassword;
         return "Basic " + Base64.encodeToString(header.getBytes(), Base64.NO_WRAP);
     }
 

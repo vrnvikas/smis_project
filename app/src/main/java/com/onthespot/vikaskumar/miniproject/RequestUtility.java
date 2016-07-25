@@ -15,7 +15,7 @@ import retrofit2.Response;
 public class RequestUtility {
 
 
-    public static void requestSignUp(String header, SignUpPojo signUpPojo, final Context context, RequestResponseSignUp response) {
+    public static void requestSignUp(String header, final String userName, SignUpPojo signUpPojo, final Context context, RequestResponseSignUp response) {
         RetroInterface retroInterface = Utility.createRetrofit();
         Call<UserTokenModel> call = retroInterface.registerUser(header, signUpPojo);
         final RequestResponseSignUp requestResponseSignUp = response;
@@ -24,7 +24,7 @@ public class RequestUtility {
             public void onResponse(Call<UserTokenModel> call, Response<UserTokenModel> response) {
                 if (response.body() != null) {
                     Log.i("token", response.body().getToken() + "");
-                    Utility.putTokenIn(response.body().getToken(), context);
+                    Utility.putTokenIn(response.body().getToken(), userName,context);
                     requestResponseSignUp.onSuccess();
 
                 } else {

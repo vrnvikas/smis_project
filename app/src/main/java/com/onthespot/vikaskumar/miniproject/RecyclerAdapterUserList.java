@@ -126,8 +126,10 @@ public class RecyclerAdapterUserList extends RecyclerView.Adapter<RecyclerAdapte
     }
 
     private String constructHeader() {
-        String hashPassword = Utility.getHashString("abcd", "SHA-1");
-        String header = "admin3" + ":" + "abcd";
+        String userEmail = Utility.getUserEmail(context);
+        String passWord = Utility.getUserToken(context);
+        String hashPassword = Utility.getHashString(passWord, "SHA-1");
+        String header = userEmail + ":" + hashPassword;
         return "Basic " + Base64.encodeToString(header.getBytes(), Base64.NO_WRAP);
 
     }

@@ -153,13 +153,10 @@ public class StatusFragment extends Fragment {
         statusBodyPojoCall.enqueue(new Callback<List<StatusBodyPojo>>() {
             @Override
             public void onResponse(Call<List<StatusBodyPojo>> call, Response<List<StatusBodyPojo>> response) {
-                //Log.i("vikas",response.body().get(0).getPostContent()+ "-post Content" );
 
                 if(response.body() != null){
-                    //Utility.parseDatabase(response,context);
-                    List<String> list = new ArrayList<String>();
+                    List<String> list = new ArrayList<>();
                     for(StatusBodyPojo body:response.body()){
-                        Log.i("vikas","data first----"+ body.getPostContent());
                         list.add(body.getPostContent());
                     }
                     adapter.swap(list);
@@ -176,8 +173,10 @@ public class StatusFragment extends Fragment {
 
 
     private String constructHeader() {
-        String hashPassword = Utility.getHashString("abcd", "SHA-1");
-        String header = "admin3" + ":" + "abcd";
+        String userEmail = Utility.getUserEmail(context);
+        String passWord = Utility.getUserToken(context);
+        String hashPassword = Utility.getHashString(passWord, "SHA-1");
+        String header = userEmail + ":" + hashPassword;
         return "Basic " + Base64.encodeToString(header.getBytes(), Base64.NO_WRAP);
     }
 

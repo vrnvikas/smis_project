@@ -102,7 +102,8 @@ public class FragmentSignUp extends Fragment implements RequestResponseSignUp {
                 if (!checkForEmptyField() && matchPassword()) {
                     if (Utility.isNetworkAvailable(context)) {
 
-                        RequestUtility.requestSignUp(constructHeader(),constructJsonObject(),context,FragmentSignUp.this);
+                        RequestUtility.requestSignUp(constructHeader(),userEmail.getText().toString(),
+                                constructJsonObject(),context,FragmentSignUp.this);
                     }else {
                         Toast.makeText(context, "InterNet Not Working", Toast.LENGTH_LONG).show();
                     }
@@ -119,7 +120,7 @@ public class FragmentSignUp extends Fragment implements RequestResponseSignUp {
 
     private String constructHeader() {
         String hashPassword = Utility.getHashString(password.getText().toString(), "SHA-1");
-        String header = userName.getText().toString() + ":" + hashPassword;
+        String header = userEmail.getText().toString() + ":" + hashPassword;
         return "Basic " + Base64.encodeToString(header.getBytes(), Base64.NO_WRAP);
     }
 

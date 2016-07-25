@@ -85,40 +85,10 @@ public class MainActivity extends AppCompatActivity
         mJobScheduler.schedule(builder.build());
     }
 
-    public void requestStatusData(){
-        //RequestUtility.requestStatusData("","");
-    }
-
-//    private void makeStausRequest(final Context context) {
-//
-//        RetroInterface i = Utility.createRetrofit();
-//        Call<List<StatusBodyPojo>> statusBodyPojoCall = i.getToken(constructHeader());
-//        statusBodyPojoCall.enqueue(new Callback<List<StatusBodyPojo>>() {
-//            @Override
-//            public void onResponse(Call<List<StatusBodyPojo>> call, Response<List<StatusBodyPojo>> response) {
-//                Log.i("vikas",response.body().get(0).getPostContent()+ "-post Content" );
-//                Utility.parseDatabase(response,context);
-//                listData = new ArrayList<>();
-//                for(StatusBodyPojo body:response.body()){
-//                    Log.i("vikas","data first----"+ body.getPostContent());
-//                    listData.add(body.getPostContent());
-//                }
-//
-//
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<StatusBodyPojo>> call, Throwable t) {
-//
-//            }
-//        });
-//    }
-
 
     private String constructHeader() {
         String hashPassword = Utility.getHashString("abcd", "SHA-1");
-        String header = "admin3" + ":" + "abcd";
+        String header = "admin3" + ":" + hashPassword;
         return "Basic " + Base64.encodeToString(header.getBytes(), Base64.NO_WRAP);
     }
 

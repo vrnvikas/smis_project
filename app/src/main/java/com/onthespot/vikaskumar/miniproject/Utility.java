@@ -68,25 +68,41 @@ public class Utility {
 
     }
 
-    public static void putTokenIn(String token,Context context) {
+    public static void putTokenIn(String token, String userName, Context context) {
         SharedPreferences prefs = context.getSharedPreferences(SharedPrefConstants.APP_SHARED_PREF_FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("token",token);
+        editor.putString("userEmail",userName);
         editor.commit();
     }
 
     public static boolean UserTokenExists(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(SharedPrefConstants.APP_SHARED_PREF_FILE_NAME, Context.MODE_PRIVATE);
         String token = prefs.getString("token",SharedPrefConstants.DEFAULT);
-
         return !token.equals("default");
-
     }
 
     public static void clearToken(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(SharedPrefConstants.APP_SHARED_PREF_FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("token",SharedPrefConstants.DEFAULT);
+        editor.putString("userEmail",SharedPrefConstants.DEFAULT);
         editor.commit();
     }
+
+    public static String getUserEmail(Context context){
+        SharedPreferences prefs = context.getSharedPreferences(SharedPrefConstants.APP_SHARED_PREF_FILE_NAME, Context.MODE_PRIVATE);
+        String token = prefs.getString("token",SharedPrefConstants.DEFAULT);
+        String userName = prefs.getString("userEmail",SharedPrefConstants.DEFAULT);
+        return userName;
+    }
+
+    public static String getUserToken(Context context){
+        SharedPreferences prefs = context.getSharedPreferences(SharedPrefConstants.APP_SHARED_PREF_FILE_NAME, Context.MODE_PRIVATE);
+        String token = prefs.getString("token",SharedPrefConstants.DEFAULT);
+        String userName = prefs.getString("userEmail",SharedPrefConstants.DEFAULT);
+        return token;
+    }
+
+
 }
