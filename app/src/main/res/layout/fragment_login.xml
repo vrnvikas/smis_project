@@ -1,0 +1,38 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context="com.onthespot.vikaskumar.miniproject.LoginFragment">
+
+    <AutoCompleteTextView
+        android:id="@+id/input_email"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="32dp"
+        android:hint="Email address"
+        android:inputType="textEmailAddress"
+        android:maxLines="1" />
+
+
+    <EditText
+        android:id="@+id/input_password"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/input_email"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="8dp"
+        android:hint="Password"
+        android:inputType="textPassword" />
+
+
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/input_password"
+        android:text="SIGN IN"
+        android:textColor="@android:color/black" />
+
+</RelativeLayout>
