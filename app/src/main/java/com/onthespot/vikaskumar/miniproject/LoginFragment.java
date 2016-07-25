@@ -27,7 +27,7 @@ import retrofit2.Response;
  * create an instance of this fragment.
  */
 
-public class LoginFragment extends Fragment implements RequestResponse {
+public class LoginFragment extends Fragment implements RequestResponseLogIn {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -102,15 +102,15 @@ public class LoginFragment extends Fragment implements RequestResponse {
                         RetroInterface retroInterface = Utility.createRetrofit();
                         Call<UserTokenModel> call = retroInterface.LoginUserUser(constructHeader());
 
-
                         call.enqueue(new Callback<UserTokenModel>() {
                             @Override
                             public void onResponse(Call<UserTokenModel> call, Response<UserTokenModel> response) {
-                                //log.i(response.headers())
+                                final RequestResponseLogIn requestResponseLogIn = LoginFragment.this;
+
                                 if(response.body() != null){
-                                    Toast.makeText(context, "Loged In", Toast.LENGTH_SHORT).show();
                                     Utility.putTokenIn(response.body().getToken(),context);
-                                    startActivityMain();
+                                    requestResponseLogIn.onSuccess();
+
                                 }else {
                                     Toast.makeText(context, "Server Error", Toast.LENGTH_SHORT).show();
                                 }
@@ -180,7 +180,8 @@ public class LoginFragment extends Fragment implements RequestResponse {
 
     @Override
     public void onSuccess() {
-
+        startActivityMain();
+        Toast.makeText(context, "User LoggedIn", Toast.LENGTH_LONG).show();
     }
 
     @Override

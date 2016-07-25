@@ -15,17 +15,17 @@ import retrofit2.Response;
 public class RequestUtility {
 
 
-    public static void requestSignUp(String header, SignUpPojo signUpPojo, final Context context, RequestResponse response) {
+    public static void requestSignUp(String header, SignUpPojo signUpPojo, final Context context, RequestResponseSignUp response) {
         RetroInterface retroInterface = Utility.createRetrofit();
         Call<UserTokenModel> call = retroInterface.registerUser(header, signUpPojo);
-        final RequestResponse requestResponse = response;
+        final RequestResponseSignUp requestResponseSignUp = response;
         call.enqueue(new Callback<UserTokenModel>() {
             @Override
             public void onResponse(Call<UserTokenModel> call, Response<UserTokenModel> response) {
                 if (response.body() != null) {
                     Log.i("token", response.body().getToken() + "");
                     Utility.putTokenIn(response.body().getToken(), context);
-                    requestResponse.onSuccess();
+                    requestResponseSignUp.onSuccess();
 
                 } else {
                     Toast.makeText(context, "ServerError", Toast.LENGTH_LONG).show();
@@ -35,7 +35,7 @@ public class RequestUtility {
             @Override
             public void onFailure(Call<UserTokenModel> call, Throwable t) {
 
-                requestResponse.onError();
+                requestResponseSignUp.onError();
             }
         });
     }
