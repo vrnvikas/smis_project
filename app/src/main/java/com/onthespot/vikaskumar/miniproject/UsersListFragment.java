@@ -84,7 +84,7 @@ public class UsersListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View layout = inflater.inflate(R.layout.fragment_User_list, container, false);
+        View layout = inflater.inflate(R.layout.fragment_user_list, container, false);
         setRecyclerView(layout);
         return layout;
     }

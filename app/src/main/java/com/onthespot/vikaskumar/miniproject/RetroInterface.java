@@ -27,8 +27,8 @@ public interface RetroInterface {
     Call<UserTokenModel> LoginUserUser(@Header("Authorization") String header);
 
     @GET(URL.USER_LIST)
-    Call<List<UserListBodyPojo>> getUserList(String header);
+    Call<List<UserListBodyPojo>> getUserList(@Header("Authorization") String header);
 
     @POST(URL.USER_LIST)
-    Call<UserFollowStatusPojo> postUserFollowRequest(String header, FollowPostPojo followPostPojo);
+    Call<UserFollowStatusPojo> postUserFollowRequest(@Header("Authorization") String header,@Body FollowPostPojo followPostPojo);
 }

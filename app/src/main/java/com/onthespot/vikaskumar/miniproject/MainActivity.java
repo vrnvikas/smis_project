@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_new_feed) {
             setFragment(StatusFragment.newInstance("","",getBaseContext(), listData));
         } else if (id == R.id.nav_users) {
-            setFragment(UsersListFragment.newInstance("",""));
+            setFragment(UsersListFragment.newInstance("","",getBaseContext()));
         }else if(id == R.id.nav_sign_out){
             Utility.clearToken(getBaseContext());
             startActivitySplash();
