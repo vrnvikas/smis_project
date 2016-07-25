@@ -58,4 +58,26 @@ public class RequestUtility {
             }
         });
     }
+
+    public static void followRequest(String header, FollowPostPojo followPostPojo, final Context context) {
+
+        RetroInterface retroInterface = Utility.createRetrofit();
+        Call<UserFollowStatusPojo> call = retroInterface.postUserFollowRequest(header, followPostPojo);
+
+        call.enqueue(new Callback<UserFollowStatusPojo>() {
+            @Override
+            public void onResponse(Call<UserFollowStatusPojo> call, Response<UserFollowStatusPojo> response) {
+
+                if(response.body() != null&& response.body().getStatus() == "true"){
+                    Toast.makeText(context, "status apdated", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserFollowStatusPojo> call, Throwable t) {
+
+            }
+        });
+
+    }
 }

@@ -28,4 +28,7 @@ public interface RetroInterface {
 
     @GET(URL.USER_LIST)
     Call<List<UserListBodyPojo>> getUserList(String header);
+
+    @POST(URL.USER_LIST)
+    Call<UserFollowStatusPojo> postUserFollowRequest(String header, FollowPostPojo followPostPojo);
 }
