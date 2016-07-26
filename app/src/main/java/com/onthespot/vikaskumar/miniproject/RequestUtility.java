@@ -47,9 +47,10 @@ public class RequestUtility {
         call.enqueue(new Callback<UserTokenModel>() {
             @Override
             public void onResponse(Call<UserTokenModel> call, Response<UserTokenModel> response) {
-                Log.i("vik", response.body().getToken() + "");
-                Toast.makeText(context, "status apdated", Toast.LENGTH_LONG).show();
 
+                if(response.body() != null){
+                    Toast.makeText(context, "status apdated", Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override

@@ -42,7 +42,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             String current = listData.get(position);
             holder.textView.setText(current);
         }else {
-            holder.textView.setText("Empty");
+            holder.textView.setText("No Data Available");
         }
     }
 

@@ -129,9 +129,9 @@ public class UsersListFragment extends Fragment {
 
     private String constructHeader() {
         String userEmail = Utility.getUserEmail(context);
-        String passWord = Utility.getUserToken(context);
-        String hashPassword = Utility.getHashString(passWord, "SHA-1");
-        String header = userEmail + ":" + hashPassword;
+        String userToken = Utility.getUserToken(context);
+        String hashPassword = Utility.getHashString(userToken, "SHA-1");
+        String header = userToken + ":" + "None";
         return "Basic " + Base64.encodeToString(header.getBytes(), Base64.NO_WRAP);
     }
 
